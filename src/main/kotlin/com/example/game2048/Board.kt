@@ -10,7 +10,23 @@ data class Board(val together: List<Tile>) {
     }
 
     fun up(): Board {
-        return Board(toUp(moveLeft(toLeft(together).toMutableList())))
+        var result = (together).toMutableList()
+        val columns = Math.min(4, result.size)
+        val rows = Math.min(4, result.size / 4)
+        val single = fun(i: Int, j: Int) = i * columns + j
+        for (i in 0..columns) {
+            for (j in 0..rows) {
+                try {
+                    if (result[single(i, j)] == result[single(i - 1, j)] && result[single(i, j)] != Tile(0)) {
+                        result[single(i - 1, j)] = result[single(i - 1, j)].next()
+                        result.removeAt(single(i, j))
+                    }
+                } catch (e: IndexOutOfBoundsException) {
+                }
+            }
+        }
+        val newBoard = result
+        return Board(newBoard)
     }
 
     private fun toUp(tiles: List<Tile>): List<Tile> {
