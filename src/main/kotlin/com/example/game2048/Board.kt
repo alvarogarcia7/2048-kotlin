@@ -2,21 +2,24 @@ package com.example.game2048
 
 data class Board(val together: List<List<Tile>>) {
     fun left(): Board {
-        return Board(moveLeft(together).map { result ->
-            val x = result.filterNot { it == Tile(0) }.toMutableList()
-            for (i in x.size until 4) {
-                x.add(Tile(0))
+        var total: MutableList<MutableList<Tile>> = makeMutable(together)
+        for (i in 0 until total.size) {
+            var result: MutableList<Tile> = total[i]
+            var j = 1
+            while (j < result.size) {
+                if (result[j] == result[j - 1] && result[j] != Tile(0)) {
+                    result[j - 1] = result[j - 1].next()
+                    result.removeAt(j)
+                }
+                j++
             }
-            x
-        })
-    }
-
-    private fun padWithEmptyTiles(values: List<Tile>, desiredSize: Int): MutableList<Tile> {
-        val result = values.toMutableList()
-        for (i in values.size until desiredSize) {
-            result.add(Tile(0))
+            result = result.filter { it != Tile(0) }.toMutableList()
+            for (i in result.size until 4) {
+                result.add(Tile(0))
+            }
+            total[i] = result
         }
-        return result
+        return Board(total)
     }
 
     fun right(): Board {
@@ -116,23 +119,6 @@ data class Board(val together: List<List<Tile>>) {
             }
         }
         return Board(result)
-    }
-
-    private fun moveLeft(tiles: List<List<Tile>>): List<List<Tile>> {
-        var total: MutableList<MutableList<Tile>> = makeMutable(tiles)
-        for (i in 0 until total.size) {
-            var result: MutableList<Tile> = total[i]
-            var j = 1
-            while (j < result.size) {
-                if (result[j] == result[j - 1] && result[j] != Tile(0)) {
-                    result[j - 1] = result[j - 1].next()
-                    result.removeAt(j)
-                }
-                j++
-            }
-            total[i] = padWithEmptyTiles(result, 4)
-        }
-        return total
     }
 
     private fun makeMutable(tiles: List<List<Tile>>) =
