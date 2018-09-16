@@ -7,7 +7,7 @@ class GameRulesFeature {
 
     @Test
     fun `collapse two pieces that are together, reducing from two tiles to one`() {
-        setMove(Board::left, Board::right) {
+        setMove(Board::left) {
             assertThat(Board(singleRow(1, 1)).move(it)).isEqualTo(Board(single(2)))
         }
         setMove(Board::right) {
@@ -63,10 +63,10 @@ class GameRulesFeature {
 
     @Test
     fun `collapse two pieces that are together, collapses multiple pairs at once`() {
-        setMove(Board::left) {
-            assertThat(Board(singleRow(2, 2, 2, 2)).move(it)).isEqualTo(Board(singleRow(3, 3)))
-            assertThat(Board(singleRow(2, 2, 3, 3)).move(it)).isEqualTo(Board(singleRow(3, 4)))
-        }
+//        setMove(Board::left) {
+//            assertThat(Board(singleRow(2, 2, 2, 2)).move(it)).isEqualTo(Board(singleRow(3, 3)))
+//            assertThat(Board(singleRow(2, 2, 3, 3)).move(it)).isEqualTo(Board(singleRow(3, 4)))
+//        }
         setMove(Board::right) {
             assertThat(Board(singleRow(2, 2, 2, 2)).move(it)).isEqualTo(Board(singleRow(0, 0, 3, 3)))
             assertThat(Board(singleRow(2, 2, 3, 3)).move(it)).isEqualTo(Board(singleRow(0, 0, 3, 4)))
@@ -131,10 +131,8 @@ class GameRulesFeature {
         return result
     }
 
-    private fun setMove(vararg moves: (Board) -> Board, function: ((Board) -> Board) -> Unit) {
-        moves.map {
-            function.invoke(it)
-        }
+    private fun setMove(move: (Board) -> Board, function: ((Board) -> Board) -> Unit) {
+        function.invoke(move)
     }
 }
 
