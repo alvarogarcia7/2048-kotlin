@@ -45,8 +45,8 @@ class GameRulesFeature {
     }
 
     @Test
-    fun `collapse two pieces that are together to the right, collapses only in pairs, the first pieces to collapse are the ones on the right`() {
-        setMove(Board::right) {
+    fun `collapse two pieces that are together, collapses only in pairs, the first pieces to collapse are the ones on the direction of the move`() {
+        setMove(Board::left, Board::right) {
             assertThat(Board(together(2, 2, 2, 2, 1)).move(it)).isEqualTo(Board(together(3, 3, 1)))
             assertThat(Board(together(2, 2, 2, 2, 1, 3, 3)).move(it)).isEqualTo(Board(together(3, 3, 1, 4)))
         }
