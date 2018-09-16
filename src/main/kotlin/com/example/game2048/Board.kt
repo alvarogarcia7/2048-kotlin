@@ -9,6 +9,10 @@ data class Board(val together: List<Tile>) {
         return Board(moveLeft(together.asReversed().toMutableList()).asReversed())
     }
 
+    fun up(): Board {
+        return Board(together)
+    }
+
     private fun moveLeft(mutableList: MutableList<Tile>): MutableList<Tile> {
         var result = mutableList
         var i = 1

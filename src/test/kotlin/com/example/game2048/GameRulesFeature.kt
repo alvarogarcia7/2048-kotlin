@@ -13,6 +13,13 @@ class GameRulesFeature {
     }
 
     @Test
+    fun `do not collapse two pieces that are together in the same row when moving in rows`() {
+        setMove(Board::up) {
+            assertThat(Board(together(1, 1)).move(it)).isEqualTo(Board(together(1, 1)))
+        }
+    }
+
+    @Test
     fun `collapse two pieces that are together, increasing the tile value`() {
         setMove(Board::left, Board::right) {
             assertThat(Board(together(2, 2)).move(it)).isEqualTo(Board(single(3)))
