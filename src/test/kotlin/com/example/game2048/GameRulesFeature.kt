@@ -5,8 +5,13 @@ import org.junit.jupiter.api.Test
 
 class GameRulesFeature {
     @Test
-    fun `collapse two pieces that are together`() {
+    fun `collapse two pieces that are together, reducing from two tiles to one`() {
         assertThat(Board(together(1, 1)).left()).isEqualTo(Board(single(2)))
+    }
+    
+    @Test
+    fun `collapse two pieces that are together, increasing the tile value`() {
+        assertThat(Board(together(2, 2)).left()).isEqualTo(Board(single(3)))
     }
 
     private fun single(value: Int): List<Tile> {
