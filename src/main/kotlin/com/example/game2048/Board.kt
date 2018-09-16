@@ -12,7 +12,6 @@ data class Board(val together: List<Tile>) {
             }
             i++
         }
-        println(result)
         return Board(result)
     }
 
