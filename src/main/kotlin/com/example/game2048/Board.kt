@@ -2,8 +2,15 @@ package com.example.game2048
 
 data class Board(val together: List<Tile>) {
     fun left(): Board {
+        return Board(moveLeft(together.toMutableList()))
+    }
 
-        var result = together.toMutableList()
+    fun right(): Board {
+        return Board(moveLeft(together.asReversed().toMutableList()).asReversed())
+    }
+
+    private fun moveLeft(mutableList: MutableList<Tile>): MutableList<Tile> {
+        var result = mutableList
         var i = 1
         while (i < result.size) {
             if (result[i] == result[i - 1]) {
@@ -12,20 +19,7 @@ data class Board(val together: List<Tile>) {
             }
             i++
         }
-        return Board(result)
-    }
-
-    fun right(): Board {
-        var result = together.toMutableList()
-        var i = result.size - 1
-        while (i > 0) {
-            if (result[i] == result[i - 1]) {
-                result[i] = result[i].next()
-                result.removeAt(i - 1)
-            }
-            i--
-        }
-        return Board(result)
+        return result
     }
 
 }
