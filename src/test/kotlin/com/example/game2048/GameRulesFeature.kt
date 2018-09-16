@@ -40,7 +40,27 @@ class GameRulesFeature {
     }
 
     @Test
-    fun `when moving columns, move even if they don't collapse`() {
+    fun `move even if they don't collapse`() {
+        setMove(Board::left) {
+            assertBoardAfterMoving(
+                    single(
+                            row(0, 1, 2)),
+                    it,
+                    single(
+                            row(1, 2))
+            )
+
+        }
+        setMove(Board::right) {
+            assertBoardAfterMoving(
+                    single(
+                            row(1, 2, 0)),
+                    it,
+                    single(
+                            row(0, 0, 1, 2))
+            )
+
+        }
         setMove(Board::down) {
             assertBoardAfterMoving(
                     single(

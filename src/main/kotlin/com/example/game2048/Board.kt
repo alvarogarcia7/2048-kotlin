@@ -2,7 +2,13 @@ package com.example.game2048
 
 data class Board(val together: List<List<Tile>>) {
     fun left(): Board {
-        return Board(moveLeft(together))
+        return Board(moveLeft(together).map { result ->
+            val x = result.filterNot { it == Tile(0) }.toMutableList()
+            for (i in x.size until 4) {
+                x.add(Tile(0))
+            }
+            x
+        })
     }
 
     private fun padWithEmptyTiles(values: List<Tile>, desiredSize: Int): MutableList<Tile> {
