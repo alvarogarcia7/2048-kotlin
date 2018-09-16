@@ -18,7 +18,7 @@ class GameRulesFeature {
             assertThat(Board(together(2, 2)).move(it)).isEqualTo(Board(single(3)))
         }
     }
-    
+
     @Test
     fun `collapse two pieces that are together, keeps the rest of the tiles`() {
         setMove(Board::left, Board::right) {
@@ -38,14 +38,6 @@ class GameRulesFeature {
 
     @Test
     fun `collapse two pieces that are together, collapses multiple pairs at once`() {
-        setMove(Board::left) {
-            assertThat(Board(together(2, 2, 2, 2)).move(it)).isEqualTo(Board(together(3, 3)))
-            assertThat(Board(together(2, 2, 3, 3)).move(it)).isEqualTo(Board(together(3, 4)))
-        }
-    }
-
-    @Test
-    fun `collapse two pieces that are together to the right, collapses multiple pairs at once`() {
         setMove(Board::left, Board::right) {
             assertThat(Board(together(2, 2, 2, 2)).move(it)).isEqualTo(Board(together(3, 3)))
             assertThat(Board(together(2, 2, 3, 3)).move(it)).isEqualTo(Board(together(3, 4)))
