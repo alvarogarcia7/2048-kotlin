@@ -15,6 +15,10 @@ data class Board(val together: List<Tile>) {
         return Board(result)
     }
 
+    fun right(): Board {
+        return this.left()
+    }
+
 }
 
 data class Tile(val value: Int) {
