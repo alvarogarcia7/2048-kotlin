@@ -64,6 +64,7 @@ class GameRulesFeature {
         setMove(Board::down) {
             assertBoardAfterMoving(
                     single(
+                            row(),
                             row(2),
                             row(1)),
                     it,
@@ -160,22 +161,17 @@ class GameRulesFeature {
         return padWithEmptyTiles(values.map { Tile(it) }, 4)
     }
 
-    private fun single(elements: List<Tile>): List<List<Tile>> {
-        return listOf(
-                elements,
-                emptyRow(),
-                emptyRow(),
+    private fun single(vararg rows: List<Tile>): List<List<Tile>> {
+        assertThat(rows.size).isLessThanOrEqualTo(4)
+        return (0 until 4).map {
+            if (rows.size > it) {
+                rows[it]
+            } else {
                 emptyRow()
-        )
-    }
-
-    private fun single(elements: List<Tile>, elements2: List<Tile>): List<List<Tile>> {
-        return listOf(
-                elements,
-                elements2,
-                emptyRow(),
-                emptyRow()
-        )
+            }
+        }.also {
+            assertThat(it.size).isLessThanOrEqualTo(4)
+        }
     }
 
     private fun single(value: Int): List<List<Tile>> {
