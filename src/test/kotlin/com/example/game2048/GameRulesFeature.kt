@@ -18,23 +18,29 @@ class GameRulesFeature {
     @Test
     fun `collapse two pieces that are together in the same column, when moving columns, reducing from two tiles to one`() {
         setMove(Board::up) {
-            assertThat(Board(single(
-                    row(1, 0, 0, 0),
-                    row(1))).move(it)).isEqualTo(Board(singleRow(2, 0, 0, 0)))
+            assertBoardAfterMoving(
+                    single(
+                            row(1, 0, 0, 0),
+                            row(1)), it,
+                    singleRow(2, 0, 0, 0))
         }
         setMove(Board::down) {
-            assertThat(
-                    Board(single(
+            assertBoardAfterMoving(
+                    single(
                             row(1, 0, 0, 0),
-                            row(1)))
-                            .move(it))
-                    .isEqualTo(Board(listOf(
+                            row(1)),
+                    it,
+                    listOf(
                             row(0, 0, 0, 0),
                             row(0, 0, 0, 0),
                             row(0, 0, 0, 0),
                             row(2, 0, 0, 0)
-                    )))
+                    ))
         }
+    }
+
+    private fun assertBoardAfterMoving(initial: List<List<Tile>>, it: (Board) -> Board, final: List<List<Tile>>) {
+        assertThat(Board(initial).move(it)).isEqualTo(Board(final))
     }
 
     @Test
