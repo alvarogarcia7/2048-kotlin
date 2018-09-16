@@ -41,13 +41,13 @@ data class Board(val together: List<List<Tile>>) {
         var result: MutableList<MutableList<Tile>> = makeMutable(together)
         for (i in 1 until result.size) {
             for (j in 0 until result[i].size) {
-                    if (result[i][j] == result[i - 1][j] && result[i][j] != Tile(0)) {
-                        result[i - 1][j] = result[i - 1][j].next()
-                        for (_i in i + 1 until result.size) {
-                            result[_i - 1][j] = result[_i][j]
-                        }
-                        result[3][j] = Tile(0)
+                if (result[i][j] == result[i - 1][j] && result[i][j] != Tile(0)) {
+                    result[i - 1][j] = result[i - 1][j].next()
+                    for (_i in i + 1 until result.size) {
+                        result[_i - 1][j] = result[_i][j]
                     }
+                    result[3][j] = Tile(0)
+                }
             }
         }
         return Board(result)
@@ -61,7 +61,9 @@ data class Board(val together: List<List<Tile>>) {
                 if (result[i][j] == result[i - 1][j] && result[i][j] != Tile(0)) {
                     result[i][j] = result[i][j].next()
                     (1 until i).reversed().map {
-                        result[it][j] = result[it - 1][j]
+                        if (result[it][j] == Tile(0)) {
+                            result[it][j] = result[it - 1][j]
+                        }
                     }
                     result[0][j] = Tile(0)
                     (i until 4).map {
@@ -71,8 +73,25 @@ data class Board(val together: List<List<Tile>>) {
                         }
                     }
                 }
+
             }
             i--
+        }
+        (0 until 4).map { j ->
+            val column =
+                    (0 until 4)
+                            .map { i ->
+                                result[i][j]
+                            }
+                            .filterNot { it == Tile(0) }
+                            .toMutableList()
+            for (_i in column.size until 4) {
+                column.add(0, Tile(0))
+            }
+
+            (0 until 4).map { ii ->
+                result[ii][j] = column[ii]
+            }
         }
         return Board(result)
     }
@@ -97,10 +116,21 @@ data class Board(val together: List<List<Tile>>) {
     private fun makeMutable(tiles: List<List<Tile>>) =
             tiles.map { it.toMutableList() }.toMutableList()
 
+    override fun toString(): String {
+        return "Board($together)"
+    }
+
+
 }
 
 data class Tile(val value: Int) {
     fun next(): Tile {
         return Tile(value + 1)
     }
+
+    override fun toString(): String {
+        return value.toString()
+    }
+
+
 }

@@ -39,6 +39,24 @@ class GameRulesFeature {
         }
     }
 
+    @Test
+    fun `when moving columns, move even if they don't collapse`() {
+        setMove(Board::down) {
+            assertBoardAfterMoving(
+                    single(
+                            row(2, 0, 0, 0),
+                            row(1)),
+                    it,
+                    listOf(
+                            row(0, 0, 0, 0),
+                            row(0, 0, 0, 0),
+                            row(2, 0, 0, 0),
+                            row(1, 0, 0, 0)
+                    ))
+
+        }
+    }
+
     private fun assertBoardAfterMoving(initial: List<List<Tile>>, it: (Board) -> Board, final: List<List<Tile>>) {
         assertThat(Board(initial).move(it)).isEqualTo(Board(final))
     }
