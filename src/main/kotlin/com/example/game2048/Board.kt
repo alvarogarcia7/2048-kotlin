@@ -50,6 +50,22 @@ data class Board(val together: List<List<Tile>>) {
                 }
             }
         }
+        (0 until 4).map { j ->
+            val column =
+                    (0 until 4)
+                            .map { i ->
+                                result[i][j]
+                            }
+                            .filterNot { it == Tile(0) }
+                            .toMutableList()
+            for (_i in column.size until 4) {
+                column.add(Tile(0))
+            }
+
+            (0 until 4).map { ii ->
+                result[ii][j] = column[ii]
+            }
+        }
         return Board(result)
     }
 

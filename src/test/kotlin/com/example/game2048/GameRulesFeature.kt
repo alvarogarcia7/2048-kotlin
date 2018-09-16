@@ -55,6 +55,20 @@ class GameRulesFeature {
                     ))
 
         }
+        setMove(Board::up) {
+            assertBoardAfterMoving(
+                    listOf(
+                            row(),
+                            row(2),
+                            row(1),
+                            row()),
+                    it,
+                    single(
+                            row(2),
+                            row(1)
+                    ))
+
+        }
     }
 
     private fun assertBoardAfterMoving(initial: List<List<Tile>>, it: (Board) -> Board, final: List<List<Tile>>) {
