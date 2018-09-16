@@ -44,14 +44,14 @@ class GameRulesFeature {
         setMove(Board::down) {
             assertBoardAfterMoving(
                     single(
-                            row(2, 0, 0, 0),
+                            row(2),
                             row(1)),
                     it,
                     listOf(
-                            row(0, 0, 0, 0),
-                            row(0, 0, 0, 0),
-                            row(2, 0, 0, 0),
-                            row(1, 0, 0, 0)
+                            row(),
+                            row(),
+                            row(2),
+                            row(1)
                     ))
 
         }
