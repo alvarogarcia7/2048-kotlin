@@ -53,6 +53,30 @@ data class Board(val together: List<List<Tile>>) {
         return Board(result)
     }
 
+    fun down(): Board {
+        var result: MutableList<MutableList<Tile>> = makeMutable(together)
+        var i = result.size - 1
+        while (i >= 1) {
+            for (j in 0 until result[i].size) {
+                if (result[i][j] == result[i - 1][j] && result[i][j] != Tile(0)) {
+                    result[i][j] = result[i][j].next()
+                    (1 until i).reversed().map {
+                        result[it][j] = result[it - 1][j]
+                    }
+                    result[0][j] = Tile(0)
+                    (i until 4).map {
+                        if (result[it][j] == Tile(0)) {
+                            result[it][j] = result[it - 1][j]
+                            result[it - 1][j] = Tile(0)
+                        }
+                    }
+                }
+            }
+            i--
+        }
+        return Board(result)
+    }
+
     private fun moveLeft(tiles: List<List<Tile>>): List<List<Tile>> {
         var total: MutableList<MutableList<Tile>> = makeMutable(tiles)
         for (i in 0 until total.size) {

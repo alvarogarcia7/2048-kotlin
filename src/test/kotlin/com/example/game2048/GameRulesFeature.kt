@@ -22,6 +22,16 @@ class GameRulesFeature {
                     row(1, 0, 0, 0),
                     row(1))).move(it)).isEqualTo(Board(singleRow(2, 0, 0, 0)))
         }
+        setMove(Board::down) {
+            assertThat(Board(single(
+                    row(1, 0, 0, 0),
+                    row(1))).move(it)).isEqualTo(Board(listOf(
+                    row(0, 0, 0, 0),
+                    row(0, 0, 0, 0),
+                    row(0, 0, 0, 0),
+                    row(2, 0, 0, 0)
+            )))
+        }
     }
 
     @Test
