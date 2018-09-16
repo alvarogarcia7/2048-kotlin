@@ -38,19 +38,17 @@ data class Board(val together: List<List<Tile>>) {
     }
 
     fun up(): Board {
-        var result = makeMutable(together)
-        val columns = Math.min(4, result.size)
-        val rows = Math.min(4, result.size / 4)
-        for (i in 0 until columns) {
-            for (j in 0 until rows) {
-                try {
+        var result: MutableList<MutableList<Tile>> = makeMutable(together)
+        for (i in 1 until result.size) {
+            for (j in 0 until result[i].size) {
                     if (result[i][j] == result[i - 1][j] && result[i][j] != Tile(0)) {
                         result[i - 1][j] = result[i - 1][j].next()
+                        for (_i in i + 1 until result.size) {
+                            result[_i - 1][j] = result[_i][j]
+                        }
+                        result[3][j] = Tile(0)
                     }
-                } catch (e: IndexOutOfBoundsException) {
-                }
             }
-            result[i] = padWithEmptyTiles(result[i], together[i].size)
         }
         return Board(result)
     }
