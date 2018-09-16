@@ -36,6 +36,11 @@ class GameRulesFeature {
         assertThat(Board(together(2, 2, 3, 3)).right()).isEqualTo(Board(together(3, 4)))
     }
 
+    @Test
+    fun `collapse two pieces that are together to the right, collapses only in pairs, the first pieces to collapse are the ones on the right`() {
+        assertThat(Board(together(2, 2, 2, 1)).right()).isEqualTo(Board(together(2, 3, 1)))
+    }
+
     private fun single(value: Int): List<Tile> {
         return arrayListOf(Tile(value))
     }

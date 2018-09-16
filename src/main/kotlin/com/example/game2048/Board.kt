@@ -16,7 +16,16 @@ data class Board(val together: List<Tile>) {
     }
 
     fun right(): Board {
-        return this.left()
+        var result = together.toMutableList()
+        var i = result.size - 1
+        while (i > 0) {
+            if (result[i] == result[i - 1]) {
+                result[i] = result[i].next()
+                result.removeAt(i - 1)
+            }
+            i--
+        }
+        return Board(result)
     }
 
 }
